@@ -50,6 +50,8 @@ networks:
   # Criando um server no pgadmin
   
    Em Host name/address informar o nome do container que corresponde à instância do PostgreSQL (teste-postgres-compose);
+   
    Em Port definir o valor 5432 (porta default de acesso ao container e disponível a partir da rede postgres-compose-network; não informar a porta em que o PostgreSQL foi mapeado no host);
+   
    No atributo Username será informado o usuário default do PostgreSQL (postgres), bem como a senha correspondente em Password (postgres2021).
   
