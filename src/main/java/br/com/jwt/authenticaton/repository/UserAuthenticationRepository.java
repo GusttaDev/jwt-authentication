@@ -1,6 +1,6 @@
-package br.com.jwt.authenticaton.jwtauthentication.repository;
+package br.com.jwt.authenticaton.repository;
 
-import br.com.jwt.authenticaton.jwtauthentication.model.UserAuthentication;
+import br.com.jwt.authenticaton.model.UserAuthentication;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

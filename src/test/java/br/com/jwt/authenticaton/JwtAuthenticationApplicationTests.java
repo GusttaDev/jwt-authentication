@@ -1,4 +1,4 @@
-package br.com.jwt.authenticaton.jwtauthentication;
+package br.com.jwt.authenticaton;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

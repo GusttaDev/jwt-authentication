@@ -1,11 +1,10 @@
-package br.com.jwt.authenticaton.jwtauthentication.controller;
+package br.com.jwt.authenticaton.controller;
 
-import br.com.jwt.authenticaton.jwtauthentication.config.PasswordEncoderConfig;
-import br.com.jwt.authenticaton.jwtauthentication.model.UserAuthentication;
-import br.com.jwt.authenticaton.jwtauthentication.service.UserAuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.jwt.authenticaton.model.UserAuthentication;
+import br.com.jwt.authenticaton.service.UserAuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +13,14 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    private UserAuthenticationService userAuthenticationService;
+    private final UserAuthenticationService userAuthenticationService;
 
-    @Autowired
-    private PasswordEncoderConfig passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserController(UserAuthenticationService userAuthenticationService, PasswordEncoder passwordEncoder) {
+        this.userAuthenticationService = userAuthenticationService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping
     public ResponseEntity<List<UserAuthentication>> findAll(){
@@ -27,7 +29,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserAuthentication> create(@RequestBody UserAuthentication user){
-        user.setPassword(passwordEncoder.getPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body(userAuthenticationService.create(user));
     }
 

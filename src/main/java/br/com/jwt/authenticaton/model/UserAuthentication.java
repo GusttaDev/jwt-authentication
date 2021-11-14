@@ -1,4 +1,4 @@
-package br.com.jwt.authenticaton.jwtauthentication.model;
+package br.com.jwt.authenticaton.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

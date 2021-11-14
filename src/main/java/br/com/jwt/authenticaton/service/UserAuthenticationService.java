@@ -1,10 +1,9 @@
-package br.com.jwt.authenticaton.jwtauthentication.service;
+package br.com.jwt.authenticaton.service;
 
-import br.com.jwt.authenticaton.jwtauthentication.config.PasswordEncoderConfig;
-import br.com.jwt.authenticaton.jwtauthentication.model.UserAuthentication;
-import br.com.jwt.authenticaton.jwtauthentication.repository.UserAuthenticationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.jwt.authenticaton.model.UserAuthentication;
+import br.com.jwt.authenticaton.repository.UserAuthenticationRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +12,14 @@ import java.util.Optional;
 @Service
 public class UserAuthenticationService {
 
-    @Autowired
-    private UserAuthenticationRepository userAuthenticationRepository;
+    private final UserAuthenticationRepository userAuthenticationRepository;
 
-    @Autowired
-    private PasswordEncoderConfig passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserAuthenticationService(UserAuthenticationRepository userAuthenticationRepository, PasswordEncoder passwordEncoder) {
+        this.userAuthenticationRepository = userAuthenticationRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public List<UserAuthentication> findAll(){
         return userAuthenticationRepository.findAll();
@@ -33,7 +35,7 @@ public class UserAuthenticationService {
     public HttpStatus validatePassword(String login, String password){
         Optional<UserAuthentication> userDB = userAuthenticationRepository.findByLogin(login);
 
-        boolean valid = userDB.filter(userAuthentication -> passwordEncoder.getPasswordEncoder().matches(password, userAuthentication.getPassword())).isPresent();
+        boolean valid = userDB.filter(userAuthentication -> passwordEncoder.matches(password, userAuthentication.getPassword())).isPresent();
 
         return valid ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
     }
